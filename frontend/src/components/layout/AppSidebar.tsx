@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/sidebar';
 
 const navigationItems = [
-  { title: 'Dashboard', url: '/', icon: Home },
+  { title: 'Dashboard', url: '/dashboard', icon: Home },
   { title: 'Documents', url: '/documents', icon: FileText },
   { title: 'Notifications', url: '/notifications', icon: Bell },
   { title: 'Compliance', url: '/compliance', icon: ShieldCheck },
@@ -41,7 +41,7 @@ export function AppSidebar() {
   const isCollapsed = state === 'collapsed';
 
   function isActive(path: string) {
-    if (path === '/') return location.pathname === '/';
+    if (path === '/dashboard') return location.pathname === '/dashboard';
     return location.pathname.startsWith(path);
   }
 

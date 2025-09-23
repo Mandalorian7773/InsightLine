@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Bell, Globe, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { useAuth } from '../../contexts/AuthContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +23,13 @@ interface TopBarProps {
 export function TopBar({ onNotificationsToggle, showNotifications }: TopBarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [language, setLanguage] = useState('en');
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header className="h-16 border-b bg-card px-4 flex items-center justify-between shadow-sm">
@@ -79,16 +88,16 @@ export function TopBar({ onNotificationsToggle, showNotifications }: TopBarProps
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm">
               <User className="h-4 w-4" />
-              <span className="ml-2 text-sm">Rajesh K.</span>
+              <span className="ml-2 text-sm">{user?.name || 'User'}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Station Controller</DropdownMenuLabel>
+            <DropdownMenuLabel>{user?.role || 'User'}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Sign out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
